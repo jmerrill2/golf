@@ -1,0 +1,19 @@
+version : '2'
+services: 
+  database:
+    image: postgres:9.4
+    environment:
+      - POSTGRES_USER=golf_backend
+      - POSTGRES_PASSWORD=golf_backend
+    ports:
+      - 5789:5432
+  backend:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/golf_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=golf_backend.settings
+
