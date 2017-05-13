@@ -14,12 +14,12 @@ if __name__=='__main__':
 
 
 #from models import Volume, Book, Chapter, Verse
-from apps.scripture.models import Volume, Book, Chapter, Verse
+from _apps.scripture.models import Volume, Book, Chapter, Verse
 from bom import text
 import re
 
 def parse_bom():
-    #volume = Volume.objects.get(name='Book of Mormon')
+    volume = Volume.objects.get(name='Book of Mormon')
     split = text.split('\n\n')
     for section in split:
         
