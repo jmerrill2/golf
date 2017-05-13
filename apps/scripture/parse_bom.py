@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
 if __name__=='__main__':
+    import sys
+    path = '/golf_backend'
+    if path not in sys.path:
+        sys.path.append(path)
+
     import os
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "golf_backend.settings")
 
@@ -14,7 +19,7 @@ from bom import text
 import re
 
 def parse_bom():
-    volume = Volume.objects.get(name='Book of Mormon')
+    #volume = Volume.objects.get(name='Book of Mormon')
     split = text.split('\n\n')
     for section in split:
         
@@ -23,7 +28,8 @@ def parse_bom():
 
         reg = "[+-]?\d+(?:\.\d+)?:[+-]?\d+(?:\.\d+)?"
         if len(re.findall(reg, section)) > 1:
-            raise ValueError(f'Two verses are joined: \n{section}')
+            #raise ValueError(f'Two verses are joined: \n{section}')
+            pass
 
         lines = section.split('\n')
         location = lines.pop(0).split(' ')
