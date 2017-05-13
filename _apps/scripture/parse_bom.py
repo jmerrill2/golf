@@ -12,11 +12,10 @@ if __name__=='__main__':
     import django
     django.setup()
 
-
-#from models import Volume, Book, Chapter, Verse
+import re
 from _apps.scripture.models import Volume, Book, Chapter, Verse
 from bom import text
-import re
+
 
 def parse_bom():
     volume = Volume.objects.get(name='Book of Mormon')
@@ -28,8 +27,7 @@ def parse_bom():
 
         reg = "[+-]?\d+(?:\.\d+)?:[+-]?\d+(?:\.\d+)?"
         if len(re.findall(reg, section)) > 1:
-            #raise ValueError(f'Two verses are joined: \n{section}')
-            pass
+            raise ValueError(f'Two verses are joined: \n{section}')
 
         lines = section.split('\n')
         location = lines.pop(0).split(' ')
@@ -42,13 +40,15 @@ def parse_bom():
         lines[0] = ' '.join(first_line)
         verse_text = ' '.join(lines)
 	
-        print('------')
-        print(book, '   ', chapter, '   ', verse)
-        print(verse_text)
 
-        #book_obj = Book.objects.get_or_create(volume=volume, name=book)
-        #chapter_obj = Chapter.objects.get_or_create(book=book_obj, number=chapter)
-        #verse = Verse.objects.create(chapter=chapter_obj, number=verse, text=verse_text) 
+        book_obj, book_created = Book.objects.get_or_create(
+            volume=volume, name=book)
+        if book_created:
+            print(f'---{book_obj.name}---')
+        chapter_obj, _ = Chapter.objects.get_or_create(
+            book=book_obj, number=int(chapter))
+        verse, _ = Verse.objects.get_or_create(
+            chapter=chapter_obj, number=int(verse), text=verse_text)
 
 
 if __name__=='__main__':
