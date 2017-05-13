@@ -20,7 +20,7 @@ class Chapter(models.Model):
     book = models.ForeignKey('scripture.Book', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.number
+        return f'{self.book} {self.number}'
 
 class Verse(models.Model):
     text = models.TextField()
@@ -28,4 +28,4 @@ class Verse(models.Model):
     chapter = models.ForeignKey('scripture.Chapter', on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.number
+        return f'{self.chapter}:{self.number}'
