@@ -5,4 +5,4 @@ from _apps.scripture.serializers import VerseSerializer
 
 class VerseViewSet(viewsets.ModelViewSet):
     queryset = Verse.objects.all()
-    serializer_class = (VerseSerializer, )
+    serializer_class = VerseSerializer
